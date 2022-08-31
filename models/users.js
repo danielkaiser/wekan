@@ -541,7 +541,16 @@ UserSearchIndex = new Index({
   collection: Users,
   fields: ['username', 'profile.fullname', 'emails.address'],
   allowedFields: ['username', 'profile.fullname', 'emails.address'],
-  engine: new MongoDBEngine(),
+  engine: new MongoDBEngine({
+    fields: function(searchObject, options) {
+      return {
+        'username': 1,
+        'profile.fullname': 1,
+        'emails.address': 1,
+        'profile.avatarUrl': 1
+      };
+    }
+  }),
 });
 
 Users.safeFields = {
